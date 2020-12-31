@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.problemsheet.mapper.BsProblemSheetMapper">
+
+    <!-- 根据sheetid查询 -->
+	<select id="getAvmessagebyid" parameterType="String" resultType="org.jeecg.modules.problemsheet.entity.ProblemDeal">
+		select nvl(a.id_,0) as id,nvl(b.message_,'') as avmeg,nvl(a.task_def_key_,'') as deakey,nvl(a.description_,'') as des,nvl((select realname from htplat.sys_user where username = (select user_id_ from htplat.ACT_HI_IDENTITYLINK  where proc_inst_id_=b.proc_inst_id_ and task_id_=b.task_id_)),'') as uname
+		,nvl(to_char(b.time_,'yyyy.mm.dd'),'') as dealsj,nvl(b.task_id_,0) as taskid,'' as type 
+		from htplat.act_hi_taskinst a,htplat.act_hi_comment b 
+		where a.id_=b.task_id_(+) 
+		and a.proc_inst_id_=(select proc_inst_id from htplat.act_z_business where table_name='pjplat.BS_PROBLEM_SHEET' and table_id = #{sheetid}) 
+		and a.delete_reason_ = 'completed' 
+		and b.action_='AddComment' 
+		and a.TASK_DEF_KEY_ like concat(#{stype},'%') 
+		order by a.id_ desc
+	</select>
+
+</mapper>

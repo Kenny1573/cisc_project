@@ -1,0 +1,8 @@
+详细业务场景见 http://open.dahuatech.com/ 接口文档中业务介绍--》人像智能--》人脸数据统计中内容
+
+
+本部分内容为获取人像智能中相关业务场景的数据统计查询，无调用顺序
+Step1：通过【人像库总数统计】RepoTotal获取每个人像库中的人员总数。
+Step2：通过【抓拍总数统计】CaptureCountStatistics获取时间段内所有通道的抓拍总数，或通过【抓拍总数查询】CaptureCountQuery获取时间段内指定通道的抓拍总数。
+Step3：通过【报警总数统计】AlarmCountStatistics获取时间段内所有通道的报警总数，或通过【报警总数查询】AlarmCountQuery获取时间段内指定通道的报警总数。
+

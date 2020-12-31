@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.project.mapper.ProjectMapper">
+
+    <resultMap id="keyValue" type="org.jeecg.modules.project.entity.KeyValue">
+        <result column="ID" property="key"/>
+        <result column="PRJ_NAME" property="value"/>
+    </resultMap>
+    <select id="listProject" resultMap="keyValue">
+     select ID,PRJ_NAME from pjplat.BS_PROJECT where DEL_FLAG=0
+    </select>
+
+
+
+
+    <select id="getCompanyInfoById"   resultType="org.jeecg.modules.company.entity.Company">
+select *
+from (
+    select t.*,ROWNUM
+    from(
+        select b.*
+        from pjplat.BS_COMPANY b where ID in (select COM_ID from pjplat.BS_PROJECT_COMPANY where PRJ_ID=#{mainId} and COM_TYPE=#{type}) and DEL_FLAG=0  ) t where ROWNUM between #{start} and #{end} )
+    </select>
+    <select id="getProject" resultType="org.jeecg.modules.project.entity.Project">
+
+        select * from pjplat.BS_PROJECT where id=#{id} and DEL_FLAG=0
+            <if test="prjType!=null">
+                and PRJ_TYPE=#{prjType}
+            </if>
+        <if test="prjName!=null">
+            and PRJ_NAME like #{prjName}
+        </if>
+
+
+    </select>
+
+    <delete id="deleteCompanyInfoById" parameterType="java.lang.Long">
+		DELETE
+		FROM  pjplat.BS_PROJECT_COMPANY
+		WHERE
+			 COM_ID = #{cId} and PRJ_ID=#{prjId}
+	</delete>
+
+</mapper>

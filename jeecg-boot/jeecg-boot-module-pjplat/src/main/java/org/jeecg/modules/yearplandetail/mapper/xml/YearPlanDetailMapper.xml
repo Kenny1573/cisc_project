@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.yearplandetail.mapper.YearPlanDetailMapper">
+
+    <resultMap id="resultYearPanDetail" type="org.jeecg.modules.yearplandetail.entity.YearPlanDetail">
+        <result property="id" column="ID"/>
+        <result property="ypdMonth" column="ITEM_VALUE"/>
+        <result property="ypdFinance" column="YPD_FINANCE" />
+        <result property="ypdInvestment" column="YPD_INVESTMENT" />
+        <result property="ypdPlan" column="YPD_PLAN" />
+    </resultMap>
+
+    <select id="getMonthPlanList" resultMap="resultYearPanDetail" parameterType="java.lang.Long">
+        select ITEM_VALUE,ID, YPD_FINANCE, YPD_INVESTMENT,YPD_PLAN from (
+        select ID,YPD_MONTH, YPD_FINANCE, YPD_INVESTMENT,YPD_PLAN
+        from PJPLAT.BS_YEARPLAN_DETAIL d
+        where d.YPD_YP_ID =#{yearId})
+        right join (select ITEM_VALUE
+        from HTPLAT.SYS_DICT_ITEM where DICT_ID=(select ID from HTPLAT.SYS_DICT where DICT_CODE='month')) on YPD_MONTH=ITEM_VALUE
+    </select>
+</mapper>

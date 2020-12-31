@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="xbsj-labels" content="Earth起步"></meta>
+    <title>创建地球</title>
+
+    <!-- 强制提前加载Cesium.js，其中Cesium相关路径可以换成自定义的 -->
+    <!-- <script src="../../XbsjCesium/Cesium.js"></script> -->
+    <!-- <link rel="stylesheet" href="../../XbsjCesium/Widgets/Widgets.css"> -->
+
+    <!-- 0 引入js文件 -->
+    <script src="./XbsjEarth/XbsjEarth.js"></script>
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0px;
+            padding: 0px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="earthContainer" style="width: 100%; height: 100%; background: grey">
+    	 <div id="maptrig_1" style="position: absolute;
+            width: 80px;
+            height: 23px;
+            left: 60px;
+            bottom: 50px;
+            background-color: #ffffff;
+            z-index: 999;
+            box-shadow: 0 0 10px 1px #777777;">
+            <div>
+                 <button type="button" onClick="javascript:maptrig();"
+                style="color: #00c0e1; font-weight: bolder;width:80px;">平面展示</button>
+                </div>
+            </div>
+    </div>
+    <script>
+        var earth;
+        var bgImagery;
+
+        var orgin_long = 120.3299, orgin_lng = 31.5063, orgin_height = 10;
+
+        function startup() {
+            earth = new XE.Earth('earthContainer', {
+                // 这里设置Viewer的配置，和new Viewer(container, options)中的options一致
+                // homeButton: true,
+                // timeline: true,
+            });
+
+            earth.camera.navigator.showCompass = true; // 显示指北针
+            earth.camera.navigator.showDistanceLegend = true; // 显示比例尺       
+
+            //抗锯齿
+            if (Cesium.FeatureDetection.supportsImageRenderingPixelated()) {//判断是否支持图像渲染像素化处理
+                earth.czm.viewer.resolutionScale = window.devicePixelRatio;
+            }
+            earth.czm.viewer.scene.fxaa = true;
+            earth.czm.viewer.scene.postProcessStages.fxaa.enabled = true;
+
+            earth.sceneTree.root = {
+                "children": [
+                    {
+                        "czmObject": {
+                            "name": "世界地图",
+                            "xbsjType": "Imagery",
+                            "xbsjImageryProvider": {
+                                "XbsjImageryProvider": {
+                                    "url": "//192.168.101.231:6080/arcgis/rest/services/World/MapServer/tile/{z}/{y}/{x}",
+                                    "srcCoordType": "GCJ02",
+                                    "dstCoordType": "WGS84",
+                                    "maximumLevel": 7
+                                }
+                            }
+                        }
+                    },
+                    // {
+                    //     "czmObject": {
+                    //         "name": "中国地图",
+                    //         "xbsjType": "Imagery",
+                    //         "xbsjImageryProvider": {
+                    //             "XbsjImageryProvider": {
+                    //                 "url": "//192.168.101.231:6080/arcgis/rest/services/china_blue/MapServer/tile/{z}/{y}/{x}",
+                    //                 "srcCoordType": "GCJ02",
+                    //                 "dstCoordType": "WGS84",
+                    //                 "maximumLevel": 14
+                    //             }
+                    //         }
+                    //     }
+                    // },
+                    {
+                        "czmObject": {
+                            "name": "无锡地图",
+                            "xbsjType": "Imagery",
+                            "xbsjImageryProvider": {
+                                "XbsjImageryProvider": {
+                                    "url": "//192.168.101.221:6080/arcgis/rest/services/wuxi/MapServer/tile/{z}/{y}/{x}",
+                                    "srcCoordType": "GCJ02",
+                                    "dstCoordType": "WGS84",
+                                    "maximumLevel": 18
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "czmObject": {
+                            "name": "上部结构",
+                            "xbsjType": "Tileset",
+                            "url": "./3dTile/1/tileset.json",
+                            "xbsjPosition": [
+                                orgin_long * Math.PI / 180,
+                                orgin_lng * Math.PI / 180,
+                                orgin_height
+                            ],
+                            "xbsjUseOriginTransform": false,
+                            "skipLevelOfDetail": false
+                        }
+                    },
+                    {
+                        "czmObject": {
+                            "name": "挡墙段",
+                            "xbsjType": "Tileset",
+                            "url": "./3dTile/2/tileset.json",
+                            "xbsjPosition": [
+                                orgin_long * Math.PI / 180,
+                                orgin_lng * Math.PI / 180,
+                                orgin_height
+                            ],
+                            "xbsjUseOriginTransform": false,
+                            "skipLevelOfDetail": false
+                        }
+                    },
+                    {
+                        "czmObject": {
+                            "name": "下部结构",
+                            "xbsjType": "Tileset",
+                            "url": "./3dTile/3/tileset.json",
+                            "xbsjPosition": [
+                                orgin_long * Math.PI / 180,
+                                orgin_lng * Math.PI / 180,
+                                orgin_height
+                            ],
+                            "xbsjUseOriginTransform": false,
+                            "skipLevelOfDetail": false
+                        }
+                    },
+                    {
+                        "czmObject": {
+                            "name": "路灯",
+                            "xbsjType": "Tileset",
+                            "url": "./3dTile/4/tileset.json",
+                            "xbsjPosition": [
+                                orgin_long * Math.PI / 180,
+                                orgin_lng * Math.PI / 180,
+                                orgin_height
+                            ],
+                            "xbsjUseOriginTransform": false,
+                            "skipLevelOfDetail": false
+                        }
+                    }
+                ]
+            };
+
+
+            earth.interaction.picking.enabled = true; // 开启拾取操作
+
+            const tileset1 = earth.sceneTree.root.children[4].czmObject;
+
+            // Cesium后处理
+            var silhouetteBlue = Cesium.PostProcessStageLibrary.createEdgeDetectionStage();
+            silhouetteBlue.uniforms.color = Cesium.Color.BLUE;
+            silhouetteBlue.uniforms.length = 0.01;
+            silhouetteBlue.selected = [];
+
+            var silhouetteGreen = Cesium.PostProcessStageLibrary.createEdgeDetectionStage();
+            silhouetteGreen.uniforms.color = Cesium.Color.LIME;
+            silhouetteGreen.uniforms.length = 0.01;
+            silhouetteGreen.selected = [];
+
+            // earth.czm.scene.postProcessStages.add(Cesium.PostProcessStageLibrary.createSilhouetteStage([silhouetteBlue, silhouetteGreen]));
+
+            // 拾取事件定制
+            // tileset1.onclick = pickedObject => {
+            //     // pickedObject.getProperty('id');
+            //     // pickedObject.getProperty('name');
+
+            //     if (!silhouetteBlue.selected || silhouetteBlue.selected[0] !== pickedObject) {
+            //         silhouetteBlue.selected = [pickedObject];
+            //     }
+
+            //     // return false; 是否禁用点选效果？
+            // };
+
+            // tileset1.onclickout = () => {
+            //     if (silhouetteBlue.selected && silhouetteBlue.selected.length > 0) {
+            //         silhouetteBlue.selected = [];
+            //     }
+
+            //     // return false; 是否禁用点选效果？
+            // }
+
+            // tileset1.onmouseover = pickedObject => {
+            //     if (!silhouetteGreen.selected || silhouetteGreen.selected[0] !== pickedObject) {
+            //         silhouetteGreen.selected = [pickedObject];
+            //     }
+            //     // return false; 是否禁用点选效果？
+            // };
+
+            // tileset1.onmouseout = () => {
+            //     if (silhouetteGreen.selected && silhouetteGreen.selected.length > 0) {
+            //         silhouetteGreen.selected = [];
+            //     }
+            //     // return false; 是否禁用点选效果？
+            // };
+        }
+
+
+        // 1 XE.ready()会加载Cesium.js等其他资源，注意ready()返回一个Promise对象。
+        XE.ready().then(startup).then(function () {
+            earth.camera.flyTo([(orgin_long + 0.025) * Math.PI / 180, (orgin_lng - 0.001) * Math.PI / 180, 500], 500, [-30 * Math.PI / 180, -30 * Math.PI / 180, 0]);
+        });
+        function maptrig(){
+        	parent.document.getElementById("earthContainer").style.display = "none";
+        	parent.document.getElementById("divmap").style.display = "block";
+        	
+        }            
+    </script>
+</body>
+
+</html>

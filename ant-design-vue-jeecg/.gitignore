@@ -1,0 +1,33 @@
+.DS_Store
+node_modules
+/dist
+**/Web/jeecg-boot/jeecg-boot-base-common/.classpath
+**/Web/jeecg-boot/jeecg-boot-base-common/.project
+**/Web/jeecg-boot/jeecg-boot-base-common/.settings
+**/Web/jeecg-boot/jeecg-boot-base-common/target
+**/Web/jeecg-boot/jeecg-boot-base-common/jeecg-boot-base-common.iml
+**/Web/jeecg-boot/jeecg-boot-module-pjplat/jeecg-boot-module-pjplat.iml
+**/Web/jeecg-boot/jeecg-boot-module-pjplat/target
+**/Web/jeecg-boot/jeecg-boot-module-system/.settings
+**/Web/jeecg-boot/jeecg-boot-module-system/.project
+**/Web/jeecg-boot/jeecg-boot-module-system/.classpath
+**/Web/jeecg-boot/jeecg-boot-module-system/.gitattributes
+**/Web/jeecg-boot/jeecg-boot-module-system/jeecg-boot-module-system.iml
+**/Web/jeecg-boot/jeecg-boot-module-system/target
+# local env files
+.env.local
+.env.*.local
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw*

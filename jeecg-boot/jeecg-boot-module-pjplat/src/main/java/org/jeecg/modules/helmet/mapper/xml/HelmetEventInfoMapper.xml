@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.helmet.mapper.HelmetEventInfoMapper">
+
+    <resultMap id="keyValue" type="org.jeecg.modules.project.entity.KeyValueValue">
+        <result column="EVENT_TYPE" property="key"/>
+        <result column="NUM" property="value"/>
+        <result column="EVENT_RESULT" property="result"/>
+    </resultMap>
+
+    <select id="getCount" resultMap="keyValue">
+select a.EVENT_TYPE,sum(a.num) as NUM,null as EVENT_RESULT from  (
+select EVENT_TYPE, count(EVENT_RESULT) as NUM,EVENT_RESULT
+from (
+    select EVENT_TYPE,EVENT_RESULT
+    from pjplat.BS_HELMET_EVENTINFO
+    where MESSAGE_TIME
+        between to_date(#{startDate},'yyyy-mm-dd hh24:mi:ss') and to_date(#{endDate},'yyyy-mm-dd hh24:mi:ss')
+        and to_char(MESSAGE_TIME,'hh24:mi:ss') between #{startTime} and #{endTime}
+        and DEVICE_SERIAL in (
+            select DEVICE_SERIAL from (
+                                      select DEVICE_SERIAL
+                                      from pjplat.BS_USER_HELMET
+                                      where USERNAME in (
+                                                            select USERNAME
+                                                            from pjplat.BS_USER_PROJECT
+                                                            where PRJ_ID=#{prjId}
+                                                            union select  USERNAME from PJPLAT.BS_USER where USER_PRJ is null)
+
+                                          )
+        )
+    )
+group by EVENT_TYPE,EVENT_RESULT having EVENT_TYPE='beaconId') a
+group by EVENT_TYPE having EVENT_TYPE='beaconId'
+
+
+union
+
+select EVENT_TYPE, count(EVENT_TYPE) as NUM,EVENT_RESULT
+from (
+    select EVENT_TYPE,EVENT_RESULT
+    from pjplat.BS_HELMET_EVENTINFO
+    where MESSAGE_TIME
+        between to_date(#{startDate},'yyyy-mm-dd hh24:mi:ss') and to_date(#{endDate},'yyyy-mm-dd hh24:mi:ss')
+        and to_char(MESSAGE_TIME,'hh24:mi:ss') between #{startTime} and #{endTime}
+        and DEVICE_SERIAL in (
+            select DEVICE_SERIAL from (
+                                      select DEVICE_SERIAL
+                                      from pjplat.BS_USER_HELMET
+                                      where USERNAME in (
+                                                            select USERNAME
+                                                            from pjplat.BS_USER_PROJECT
+                                                            where PRJ_ID=#{prjId})
+                                                            union select  USERNAME from PJPLAT.BS_USER where USER_PRJ is null
+
+                                          )
+        )
+    ) b
+group by EVENT_TYPE,EVENT_RESULT having EVENT_TYPE!='beaconId'
+
+    </select>
+</mapper>

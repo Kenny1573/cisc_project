@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.projectleader.mapper.ProjectLeaderMapper">
+
+
+    <select id="getDepartmentIdByDepartmentName" resultType="java.lang.String">
+        select ID from htplat.SYS_DEPART where DEPART_NAME=#{departmentName}
+         <if test="bussiness!=null and bussiness!=''">
+         and PARENT_ID=#{bussiness}
+         </if>
+    </select>
+</mapper>

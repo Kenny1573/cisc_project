@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html style="height: 100%;">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>重点办</title>
+
+    <link rel="stylesheet" type="text/css" href="css/jquery.my-modal.1.1.winStyle.css" />
+    <!--Arcgis所需要的css文件-->
+    <link rel="stylesheet" href="http://192.168.101.221/library/3.20/3.20/dijit/themes/claro/claro.css" />
+    <link rel="stylesheet" href="http://192.168.101.221/library/3.20/3.20/esri/css/esri.css">
+    <link rel="stylesheet" href="css/initMap.css">
+    <!--Arcgis所需要的js文件-->
+   
+
+
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="js/jquery.my-modal.1.1.js"></script>
+    <script type="text/javascript" charset="UTF-8">
+		document.write("<script type='text/javascript' src='js/mapfunc.js?random=" + Math.random() + "'></s"+"cript>");
+	</script>
+	 <script type="text/javascript" src="http://192.168.101.221/library/3.20/3.20/init.js"></script>
+    <style type="text/css">
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            background-color: rgb(15, 25, 72);
+        }
+
+        #divTitle {
+            margin-top: 20px;
+            width: 100%;
+            height: 70px;
+            background: url('img/title.png');
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            text-align: center;
+            line-height: 50px;
+            color: rgb(0, 192, 225);
+            font-size: 35px;
+            font-weight: bolder;
+        }
+
+        #divLeft {
+            position: absolute;
+            width: 380px;
+            top: 90px;
+            left: 10px;
+            bottom: 0;
+        }
+
+        #divRight {
+            position: absolute;
+            width: 400px;
+            top: 90px;
+            right: 10px;
+            bottom: 0;
+        }
+
+        #divMid {
+            position: absolute;
+            top: 90px;
+            left: 390px;
+            right: 420px;
+            bottom: 0;
+        }
+
+
+        #left1,
+        #left2 {
+            width: 371px;
+            height: 240px;
+        }
+
+        #left3 {
+            width: 371px;
+            height: 500px;
+        }
+
+        #mid1 {
+            width: 1100px;
+            height: 691px;
+            position: absolute;
+        }
+
+        #mid2 {
+            width: 650px;
+            height: 288px;
+            position: absolute;
+            top: 690px;
+        }
+
+        #mid3 {
+            width: 450px;
+            height: 288px;
+            position: absolute;
+            top: 690px;
+            left: 645px;
+        }
+
+
+        #right1 {
+            width: 400px;
+            height: 980px;
+        }
+
+
+        .xs {
+            background: url('img/xs.png');
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+        }
+
+        .s {
+            background: url('img/s.png');
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+        }
+
+        .m {
+            background: url('img/l2.png');
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+        }
+
+        .m2 {
+            background: url('img/m2.png');
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+        }
+
+        .m3 {
+            background: url('img/m3.png');
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+        }
+
+        .l {
+            background: url('img/l3.png');
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+        }
+
+        .multi {
+            background: url('img/multi.png');
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+        }
+
+
+        .txtnoselect {
+            user-select: none;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            cursor: pointer;
+        }
+
+        .noselect {
+            user-select: none;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            cursor: pointer;
+        }
+
+        .noselect:hover {
+            background-color: #000000;
+        }
+
+        .项目 {
+            background-color: #112069a6;
+            height: 30px;
+            line-height: 30px;
+            cursor: pointer;
+            text-align: left;
+            padding-left: 10px;
+            padding-right: 10px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            user-select: none;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+        }
+
+        .项目:hover {
+            background-color: #112069f1;
+        }
+
+        .年份 {
+            background-color: #091138d0;
+            height: 30px;
+            line-height: 30px;
+            cursor: pointer;
+            text-align: left;
+            padding-left: 10px;
+            padding-right: 10px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            user-select: none;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+        }
+
+        .年份:hover {
+            background-color: #112069f1;
+        }
+        
+        .helmettable {
+			
+			width:100%;
+			height:auto;
+			/* border: 1px solid #2bc0ed; */
+			/* border-radius: 5px; */
+			max-height:550px;
+			
+			
+		}
+		.helmettable tbody {
+			/* background:#b2dff4; */
+			
+		}
+		
+		
+		.helmettable thead {
+			/* background:#2bc0ed; */
+		}
+		.helmettable tr {
+			/* border:1px solid #000 !important; */
+		}
+
+		.helmettable td,th {
+			text-align: center;
+			vertical-align: middle;
+			word-break: keep-all; /* 不换行 */
+			white-space: nowrap; /* 不换行 */
+			text-overflow: ellipsis;
+			color:#ffffff;
+			/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用*/
+		}
+		.helmettable thead tr td {
+			font-size:20px;
+		}
+		::-webkit-scrollbar{
+			width:10px;
+			height:10px;
+		}
+		::-webkit-scrollbar-track{
+			border-radius:0px;
+			background:none;
+		}
+		::-webkit-scrollbar-thumb{
+			border-radius:5px;
+			-webkt-box-shadow:inset 0 0 6px rgba(0,0,0,0.2);
+			background-color:rgba(255,255,255,.75);
+		}
+		::-webkit-scrollbar-thumb:hover{
+			border-radius:5px;
+			-webkt-box-shadow:inset 0 0 6px rgba(0,0,0,0.2);
+			background-color:rgba(85,85,85,.4);
+		}
+		
+		.button_s{
+			background-color:#428bca;
+			border-color:#357ebd;
+			color:#fff;
+			-moz-border-radius:10px;
+			-webkit-border-radius:10px;
+			border-radius:10px;
+			-khtml-border-radius:10px;
+			text-align:center;
+			vertical-align:middle;
+			border:1px solid transparent;
+			font-weight:900;
+			cursor:pointer;
+			font-size:125%;
+			background:#0f77b7;
+		}
+    </style>
+</head>
+
+<body>
+    <div id="divTitle">
+        <span id="大标题"></span>
+        <span style="position: absolute; top: 20px; right: 30px; font-size: 16px;" class="txtnoselect"
+            onclick="javascript:切换项目列表();">切换项目</span>
+        <img src="img/向下箭头.png" style="position: absolute; top: 35px; right: 10px; width: 20px;" class="noselect"
+            onclick="javascript:切换项目列表();" />
+        <div id="项目名称" style="position: absolute; font-size: 12px; display: none;
+            top: 55px;
+            right: 20px;
+            width: 200px;
+            height: 50px;
+            z-index: 999;">
+            <!-- <div id="" class="项目">
+                无锡市滨湖区蠡湖大道xx项目
+            </div>
+            <div class="项目">
+                无锡市滨湖区蠡湖大道xx项目
+            </div>
+            <div class="项目">
+                无锡市滨湖区蠡湖大道xx项目
+            </div> -->
+        </div>
+    </div>
+
+    <div id="divLeft">
+        <div id="left1" class="s">
+            <img src="img/项目介绍.png" style="position: relative; top: 20px; left: 20px; width: 20px;" />
+            <span style="position: relative; top: 17px; left: 25px; color: #00c0e1; font-weight: bolder;">项目简介</span>
+            <span style="position: relative; top: 17px; right: -215px; color: #00c0e1; font-size: 12px;"
+                class="noselect" onclick="javascript:显示模态框('项目简介')">详情</span>
+            <div id="项目简介"
+                style="color: #6fb7ca; margin-top: 30px; margin-left: 13px; margin-right: 30px; overflow: hidden; height: 160px; text-overflow: ellipsis; display:-webkit-box; -webkit-line-clamp: 6; -webkit-box-orient: vertical; line-height: 27px;">
+                路线起自与230省道无锡市区段交叉处，向南与陆马公路、苏锡常路线起自与230省道无锡市区段交叉处，向南与陆马公路、苏锡常路线起自与230省道无锡市区段交叉处，向南与陆马公路、苏锡常
+                路线起自与230省道无锡市区段交叉处，向南与陆马公路、苏锡常路线起自与230省道无锡市区段交叉处，向南与陆马公路、苏锡常
+                路线起自与230省道无锡市区段交叉处，向南与陆马公路、苏锡常
+                路线起自与230省道无锡市区段交叉处，向南与陆马公路、苏锡常
+                路线起自与230省道无锡市区段交叉处，向南与陆马公路、苏锡常
+            </div>
+        </div>
+        <div id="left2" class="s">
+            <img src="img/项目概况.png" style="position: relative; top: 20px; left: 20px; width: 20px;" />
+            <span style="position: relative; top: 17px; left: 25px; color: #00c0e1; font-weight: bolder;">项目概况</span>
+            <div style="position: relative; top: 29px; left: 10px; width: 334px; height: 150px;">
+                <div
+                    style="border-radius: 5px; width: 150px; height: 65px; background-color: rgb(18, 49, 116); float: left; margin-left: 10px; margin-top: 10px; text-align: center; line-height: 30px;">
+                    <span style="color: rgb(50, 215, 252);">施工天数</span>
+                    <br>
+                    <span style="color: rgb(42, 215, 255); font-size: 20px; font-weight: bolder;" id="施工天数">209天</span>
+                </div>
+                <div
+                    style="border-radius: 5px; width: 150px; height: 65px; background-color: rgb(18, 49, 116); float: left; margin-left: 10px; margin-top: 10px; text-align: center; line-height: 30px;">
+                    <span style="color: rgb(50, 215, 255);">预计工期</span>
+                    <br>
+                    <span style="color: rgb(42, 215, 255); font-size: 20px; font-weight: bolder;" id="预计工期">1460天</span>
+                </div>
+                <div
+                    style="border-radius: 5px; width: 150px; height: 65px; background-color: rgb(18, 49, 116); float: left; margin-left: 10px; margin-top: 10px; text-align: center; line-height: 30px;">
+                    <span style="color: rgb(50, 215, 255);">开工日期</span>
+                    <br>
+                    <span style="color: rgb(42, 215, 255); font-size: 20px; font-weight: bolder;"
+                        id="开工日期">2019-11-21</span>
+                </div>
+                <div
+                    style="border-radius: 5px; width: 150px; height: 65px; background-color: rgb(18, 49, 116); float: left; margin-left: 10px; margin-top: 10px; text-align: center; line-height: 30px;">
+                    <span style="color: rgb(50, 215, 255);">计划完工</span>
+                    <br>
+                    <span style="color: rgb(42, 215, 255); font-size: 20px; font-weight: bolder;"
+                        id="计划完工">2023-11-21</span>
+                </div>
+            </div>
+        </div>
+        <div id="left3" class="m">
+            <img src="img/项目投资.png" style="position: relative; top: 20px; left: 20px; width: 20px;" />
+            <span style="position: relative; top: 17px; left: 25px; color: #00c0e1; font-weight: bolder;">项目投资</span>
+            <span style="position: relative; top: 27px; right: -150px; color: #00c0e1; font-size: 12px;"
+                class="noselect" onclick="javascript:切换项目年份列表();" id="项目投资标题">2020年季度分析</span>
+            <img src="img/向下箭头.png" style="position: relative; top: 33px; right: -145px; width: 20px;" class="noselect"
+                onclick="javascript:切换项目年份列表();" />
+            <iframe id="xmtz" style="width: 342px; height: 420px; margin-top: 35px; margin-left: 11px; border: 0;"
+                src="charts1.html?id=121&year=2020"></iframe>
+        </div>
+
+        <div id="项目年份"
+            style="position: absolute; font-size: 12px; display: none; color: aqua; bottom: 407px; left: 248px; width: 100px; height: 50px; z-index: 999;">
+            <div id="121&2020" class="年份" onclick="JavaScript:切换年份(this);">
+                2020年
+            </div>
+            <div id="121&2019" class="年份" onclick="JavaScript:切换年份(this);">
+                2019年
+            </div>
+            <div id="121&2018" class="年份" onclick="JavaScript:切换年份(this);">
+                2018年
+            </div>
+        </div>
+    </div>
+
+    <div id="divMid">
+    	
+		<iframe id="earthContainer" src="map.html" style="position: absolute; width: 1090px; height: 645px;  top: 42px;display:none"></iframe>
+		
+        <div id="divmap" style="position: absolute; width: 1100px; height: 645px;  top: 42px; display: block;">
+            <div id="controls" style="position: absolute;
+            width: 100px;
+            height: 70px;
+            right: 60px;
+            bottom: 50px;
+            background-color: #ffffff;
+            z-index: 999;
+            box-shadow: 0 0 10px 1px #777777;">
+                <ul style="list-style: none; padding: 10px; margin: 0; color: #0bd4f5; font-weight: bolder;">
+                    <!-- <li style="margin-bottom: 10px; cursor: pointer;">
+                        <input type="checkbox" style="cursor: pointer;" />进度
+                    </li>
+                    <li style="margin-bottom: 10px; cursor: pointer;">
+                        <input type="checkbox" style="cursor: pointer;" />隐患
+                    </li> -->
+                    <li style="margin-bottom: 10px; cursor: pointer;">
+                        <input id="videoS" type="checkbox" style="cursor: pointer;" checked />监控
+                    </li>
+                    <li style="margin-bottom: 10px; cursor: pointer;">
+                        <input id="helmetS" type="checkbox" style="cursor: pointer;" checked />安全帽
+                    </li>
+                </ul>
+                
+            </div>
+            <div id="maptrig" style="position: absolute;
+            width: 80px;
+            height: 23px;
+            left: 60px;
+            bottom: 50px;
+            background-color: #ffffff;
+            z-index: 999;
+            box-shadow: 0 0 10px 1px #777777;">
+            <div>
+                 <button type="button" onClick="javascript:maptrig();"
+                style="color: #00c0e1; font-weight: bolder;width:80px;">3D展示</button>
+                </div>
+            </div>
+            
+        </div>
+
+        <div id="mid1" class="l" style="pointer-events: none;">
+            <img src="img/重点工程.png" style="position: relative; top: 35px; left: 55px; width: 20px;" />
+            <span
+                style="position: relative; top: 34px; left: 55px; color: #00c0e1; font-weight: bolder;">重点工程进度模拟展示</span>
+        </div>
+       
+        <div id="mid2" class="m2">
+            <img src="img/问题统计.png" style="position: relative; top: 16px; left: 20px; width: 20px;" />
+            <span style="position: relative; top: 13px; left: 25px; color: #00c0e1; font-weight: bolder;">问题统计</span>
+
+            <iframe id="wttj" style="position: relative; top: 5px; left: 5px; width: 625px; height: 260px; border: 0;"
+                src="charts2.html?id=121"></iframe>
+        </div>
+        <div id="mid3" class="m3">
+            <img src="img/环境监测.png" style="position: relative; top: 18px; left: 25px; width: 20px;" />
+            <span style="position: relative; top: 13px; left: 25px; color: #00c0e1; font-weight: bolder;">安全帽统计</span>
+            <span style="position: relative; top: 18px; right: -280px; color: #00c0e1; font-size: 12px;"
+                class="noselect" onclick="javascript:helmetDetail()">详情</span>
+
+            <table id="" style="position: absolute; table-layout: fixed;
+            top: 60px;
+            left: 22px;
+            width: 410px;
+            height: 212px;">
+                <tr style="height: 50px;">
+                    <td style="text-align: center; width: 50%;">
+                        <span style="color: white; font-size: 40px; font-weight: bolder;" id="在线总数">11023</span>
+                        <br />
+                        <span style="color: rgb(180, 180, 180); ">安全帽在线总数(个)</span>
+                    </td>
+                    <td style="text-align: center;">
+                        <span style="color: rgb(2, 255, 230);  font-size: 40px; font-weight: bolder" id="佩戴率">96%</span>
+                        <br />
+                        <span style="color: rgb(2, 255, 230); ">安全帽佩戴率</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;">
+                        <span style="color: tomato; font-size: 40px; font-weight: bolder" id="异常数">15</span>
+                        <br />
+                        <span style="color: tomato; ">安全帽异常数</span>
+                    </td>
+                    <td style="text-align: center;">
+                        <img src="img/安全帽.png" style="width: 150px;" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div id="divRight">
+        <div id="right1" class="multi">
+            <img src="img/预警信息.png" style="position: absolute;top: 25px;left: 15px;width: 20px;">
+            <span style="position: absolute; top: 23px; left: 40px; color: #00c0e1; font-weight: bolder;">预警信息</span>
+            <span style="position: absolute; top: 30px; right: 30px; color: #00c0e1; font-size: 12px;" class="noselect"
+                onclick="javascript:显示预警信息模态框()">详情</span>
+
+            <table style="color: #6fb7ca; table-layout: fixed;
+                width: 375px;
+                position: absolute;
+                top: 80px;
+                left: 20px;
+                font-size: 13px;">
+                <tr style="height: 28px;">
+                    <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
+                        质量安全：<span id="质量安全">存在2个安全质量问题未及时处理；</span>
+                    </td>
+                </tr>
+                <tr style="height: 28px;">
+                    <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
+                        进度管理：<span id="进度管理">项目里程碑节点已延期，请及时关注；</span>
+                    </td>
+                </tr>
+                <tr style="height: 28px;">
+                    <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
+                        投资完成度：<span id="投资完成度">2020年投资完成度为10%，请及时关注；</span>
+                    </td>
+                </tr>
+                <tr style="height: 28px;">
+                    <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
+                        需协调问题：<span id="需协调问题">需协调问题1：需尽快明确管廊实施方案并启动建设；</span>
+                    </td>
+                </tr>
+                <!-- <tr style="height: 28px;">
+                    <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
+                        测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试
+                    </td>
+                </tr> -->
+            </table>
+
+            <img src="img/监控信息.png" style="position: absolute;top: 222px;left: 15px;width: 20px;">
+            <span style="position: absolute; top: 222px; left: 40px; color: #00c0e1; font-weight: bolder;">监控信息</span>
+            <span style="position: absolute; top: 224px; right: 30px; color: #00c0e1; font-size: 12px;"
+                class="noselect" onclick="javascript:videoDetail()">查看</span>
+
+            <table style="color: #6fb7ca; table-layout: fixed;
+                width: 375px;
+                position: absolute;
+                top: 280px;
+                left: 15px;">
+                <tr style="height: 28px;">
+                    <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
+                        现场监控点位数：<span id="现场监控点位数">29</span>个
+                    </td>
+                </tr>
+                <tr style="height: 28px;">
+                    <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
+                        正在运行数：<span id="正在运行数">28</span>个
+                    </td>
+                </tr>
+                <tr style="height: 28px;">
+                    <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
+                        累计监控时长：<span id="累计监控时长">1209小时56分钟45秒</span>
+                    </td>
+                </tr>
+            </table>
+
+            <img src="img/项目里程碑.png" style="position: absolute;top: 443px;left: 15px;width: 20px;">
+            <span style="position: absolute; top: 443px ;left: 40px; color: #00c0e1; font-weight: bolder;">项目里程碑</span>
+            <table style="position:absolute;top:490px;left:10px;width:400px;" id="项目里程碑">
+                <!-- <div style="width:40%;float:left;height:100%" id="里程碑时间">
+                    <div style='color:#86d7e2;width:100%;text-align: center;margin-top:4px;'>2020.10.14</div>
+                    <div style='color:#86d7e2;width:100%;text-align: center;margin-top:75px;'>2020.2.21</div>
+                    <div style='color:#86d7e2;width:100%;text-align: center;margin-top:80px;'>2019.9.30</div>
+                    <div style='color:#86d7e2;width:100%;text-align: center;margin-top:80px;'>2019.5.22</div>
+                    <div style='color:#86d7e2;width:100%;text-align: center;margin-top:80px;'>2019.1.14</div>
+                </div>
+                <div style="width:19%;float:left;height:100%;text-align:center;" id="里程碑节点">
+                    <div
+                        style="box-shadow: 0px 0px 10px rgba(0,255,255,0.7) inset;border-radius:50%;height:25px;width:25px;">
+                    </div>
+                    <div style='width:1px;background: #123c8f;height:75px;margin-left:12px;'></div>
+
+                    <div style="background:#2ad0ff;border-radius:50%;height:25px;width:25px;">
+                    </div>
+                    <div style='width:1px;background: #123c8f;height:75px;margin-left:12px;'></div>
+
+                    <div style="background:#2ad0ff;border-radius:50%;height:25px;width:25px;">
+                    </div>
+                    <div style='width:1px;background: #123c8f;height:75px;margin-left:12px;'></div>
+
+                    <div style="background:#2ad0ff;border-radius:50%;height:25px;width:25px;">
+                    </div>
+                    <div style='width:1px;background: #123c8f;height:75px;margin-left:12px;'></div>
+
+                    <div style="background:#2ad0ff;border-radius:50%;height:25px;width:25px;">
+                    </div>
+                </div>
+                <div style="width:40%;float:left;height:100%" id="里程碑内容">
+                    <div style="color:#86d7e2">桥面板施工完毕，<br />开始防护工程施工。</div>
+                    <div style="color:#86d7e2;margin-top:50px;">钢结构施工完毕，<br />开始铺设桥面板。</div>
+                    <div style="color:#86d7e2;margin-top:55px;">墩柱施工完毕，<br />开始钢结构面板。</div>
+                    <div style="color:#86d7e2;margin-top:75px;">桩基础施工完毕。</div>
+                    <div style="color:#86d7e2;margin-top:75px;">项目启动。</div>
+                </div> -->
+                <tr>
+                    <td style="text-align: center; vertical-align: top;">
+                        <div style="color:#86d7e2;width:100%;text-align: center;">2020.10.14</div>
+                    </td>
+                    <td style="text-align: center; vertical-align: top;">
+                        <div
+                            style="box-shadow: 0px 0px 10px rgba(0,255,255,0.7) inset;border-radius:50%;height:25px;width:25px;">
+                        </div>
+                        <div style="width:1px;background: #123c8f;height:75px;margin-left:12px;"></div>
+                    </td>
+                    <td style="text-align: center; vertical-align: top;">
+                        <div style="color:#86d7e2">桥面板施工完毕，<br />开始防护工程施工。</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: center; vertical-align: top;">
+                        <div style="color:#86d7e2;width:100%;text-align: center;">2020.2.21</div>
+                    </td>
+                    <td style="text-align: center; vertical-align: top;">
+                        <div style="background:#2ad0ff;border-radius:50%;height:25px;width:25px;"></div>
+                        <div style="width:1px;background: #123c8f;height:75px;margin-left:12px;"></div>
+                    </td>
+                    <td style="text-align: center; vertical-align: top;">
+                        <div style="color:#86d7e2;">钢结构施工完毕，<br />开始铺设桥面板。</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: center; vertical-align: top;">
+                        <div style="color:#86d7e2;width:100%;text-align: center;">2019.1.14</div>
+                    </td>
+                    <td style="text-align: center; vertical-align: top;">
+                        <div style="background:#2ad0ff;border-radius:50%;height:25px;width:25px;">
+                        </div>
+                    </td>
+                    <td style="text-align: center; vertical-align: top;">
+                        <div style="color:#86d7e2;">项目启动。</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+
+    <!--模态框-->
+    <div class="m-modal" id="模态框1">
+        <div class="m-modal-dialog">
+            <div class="m-top">
+                <h4 class="m-modal-title" id="模态框标题区域"></h4>
+                <span class="m-modal-close">&times;</span>
+            </div>
+            <div class="m-middle" style="background:#10216d;color:#ffffff;">
+                <p id="模态框正文区域"></p>
+            </div>
+            <!-- <div class="m-bottom">
+                <button class="m-btn-sure">确定</button>
+                <button class="m-btn-cancel">取消</button>
+            </div> -->
+        </div>
+    </div>
+
+	
+    <script type="text/javascript">
+    	//解析url参数
+    	function GetQueryString(name){
+    		var reg = new RegExp("(^|&)" + name +"=([^&]*)(&|$)");
+    		var r = window.location.search.substr(1).match(reg);
+    		if(r!=null){
+    		return unescape(r[2]);
+    		}else {
+    		return null}
+    	}
+    	var id_now = GetQueryString("id");
+    	var jd_now;
+    	var wd_now;
+    	var jsonData;
+    	var video_type="HLS";//视频流模式
+    
+        //模态框控制
+        var m1 = new MyModal.modal(function () {
+            //alert("你点击了确定");
+        });
+
+
+        function 显示模态框(显示内容) {
+            var 模态框正文 = $("#" + 显示内容).html();
+            $('#模态框标题区域').html(显示内容);
+            $('#模态框正文区域').html(模态框正文);
+
+            m1.show();
+        }
+
+        function 显示预警信息模态框() {
+            $('#模态框标题区域').html('预警信息');
+            var 质量安全 = "质量安全：" + $("#质量安全").html();//存在2个安全质量问题未及时处理
+            var 进度管理 = "进度管理：" + $("#进度管理").html();//项目里程碑节点已延期，请及时关注
+            var 投资完成度 = "投资完成度：" + $("#投资完成度").html(); //2020年投资完成度为10 %，请及时关注
+            var 需协调问题 = "需协调问题：" + $("#需协调问题").html(); //需尽快明确管廊实施方案并启动建设
+
+            $('#模态框正文区域').html(质量安全 + "<br/>" + 进度管理 + "<br/>" + 投资完成度 + "<br/>" + 需协调问题);
+
+            m1.show();
+        }
+
+        //所有项目查询接口
+        //提交修改勾选到数据库
+        $.ajax({
+            url: "http://172.168.201.146:8080/jeecg-boot/interface/api/getAllProject",
+            async: true,
+            type: "post",
+            dataType: "json",
+            success: function (record) {
+                var data = record.result;
+                jsonData = data;
+                //加载第一个项目
+                if (GetQueryString("id") != null) {
+                	加载项目数据(GetQueryString("id"));
+                } else {
+                	id_now =  data[1].ID
+                	加载项目数据(data[1].ID);
+                }
+                for (var i = 0; i < data.length; i++) {
+                    var id = data[i].ID;
+                    var 项目 = data[i].PRJ_NAME;
+                    $('#项目名称').append("<div id='" + id + "' class='项目' onclick='JavaScript:切换项目(this);'>" + 项目 + "</div>");
+                	if (data[i].ID == id_now) {
+                		jd_now = data[i].PRJ_LONGITUDE;
+                		wd_now = data[i].PRJ_LATITUDE;
+                	}
+                }
+                
+               
+            }
+        });
+
+        function 切换项目年份列表() {
+            $('#项目年份').toggle();
+            $('#项目名称').hide();
+        }
+
+        function 切换年份(event) {
+            $('#项目年份').toggle();
+            var 项目id = event.id.split("&")[0];
+            var 项目年份 = event.id.split("&")[1];
+            $('#项目投资标题').html(项目年份 + '年季度分析');
+            加载项目投资(项目id, 项目年份);
+
+            $('#项目名称').hide();
+        }
+
+        function 切换项目列表() {
+            $('#项目名称').toggle();
+            $('#项目年份').hide();
+        }
+
+        function 切换项目(event) {
+            $('#项目名称').toggle();
+              加载项目数据(event.id);
+	id_now = event.id;
+	for (var i = 0; i < jsonData.length; i++) {
+		if (jsonData[i].ID == id_now) {
+          jd_now = jsonData[i].PRJ_LONGITUDE;
+           wd_now = jsonData[i].PRJ_LATITUDE;
+           locateplace(jd_now,wd_now);
+           createPj();
+        }
+       }
+	
+            $('#项目年份').hide();
+        }
+
+        function 加载项目数据(项目ID) {
+            加载项目简介(项目ID);
+            加载项目预警(项目ID);
+            加载监控信息(项目ID);
+            加载安全帽信息(项目ID);
+            加载项目里程碑(项目ID);
+            加载问题统计(项目ID);
+            加载项目投资(项目ID, 2020)
+        }
+
+        function 加载项目简介(项目ID) {
+            $.ajax({
+                url: "http://172.168.201.146:8080/jeecg-boot/interface/api/getProjectIntroduction",
+                async: true,
+                type: "post",
+                dataType: "json",
+                data: {
+                    id: 项目ID
+                },
+                success: function (record) {
+                    if (record.code == 500) {
+                        $('#大标题').html(0);
+                        $('#项目简介').html(0);
+                        $('#施工天数').html(0);
+                        $('#预计工期').html(0);
+                        $('#开工日期').html(0);
+                        $('#计划完工').html(0);
+                    } else {
+                        $('#大标题').html(record.result.projectName);
+                        $('#项目简介').html(record.result.projectContent);
+                        $('#施工天数').html(record.result.constructionDay);
+                        $('#预计工期').html(record.result.estimatedDuration);
+                        $('#开工日期').html(record.result.commencementDate);
+                        $('#计划完工').html(record.result.planCompletionDate);
+
+                        $('#项目年份').html("");
+                        var 开始年 = parseInt(record.result.commencementDate.split("-")[0]);
+                        var 结束年 = parseInt(record.result.planCompletionDate.split("-")[0]);
+                        for (var i = 结束年; i > 开始年 - 1; i--) {
+                            $('#项目年份').append("<div id='" + 项目ID + "&" + i + "' class='年份' onclick='JavaScript:切换年份(this);'>" + i + "年</div>");
+                        }
+                        加载项目投资(项目ID, 开始年);
+                    }
+                }, error: function () {
+
+                }
+            });
+        }
+
+        function 加载项目预警(项目ID) {
+            $.ajax({
+                url: "http://172.168.201.146:8080/jeecg-boot/interface/api/getProjectWarning",
+                async: true,
+                type: "post",
+                dataType: "json",
+                data: {
+                    id: 项目ID
+                },
+                success: function (record) {
+                    $('#质量安全').html(record.result.QualityAndSafety);
+                    $('#进度管理').html(record.result.projectProgress);
+                    $('#投资完成度').html(record.result.projectInvestment);
+                    $('#需协调问题').html(record.result.coordinationIssues);
+                }, error: function () {
+                    $('#质量安全').html(0);
+                    $('#进度管理').html(0);
+                    $('#投资完成度').html(0);
+                    $('#需协调问题').html(0);
+                }
+            });
+        }
+
+        function 加载监控信息(项目ID) {
+            $.ajax({
+                url: "http://172.168.201.146:8080/jeecg-boot/interface/api/getProjectMonitor",
+                async: true,
+                type: "post",
+                dataType: "json",
+                data: {
+                    id: 项目ID
+                },
+                success: function (record) {
+                    $('#现场监控点位数').html(record.result.pointCount);
+                    $('#正在运行数').html(record.result.runningCount);
+
+                    var 小时 = parseInt(record.result.monitorTime);
+                    var 分钟 = (record.result.monitorTime % 1) * 60;
+                    $('#累计监控时长').html(小时 + "小时" + 分钟 + "分钟");
+                }, error: function () {
+                    $('#现场监控点位数').html(0);
+                    $('#正在运行数').html(0);
+                    $('#累计监控时长').html(0 + "小时" + 0 + "分钟");
+                }
+            });
+        }
+
+        function 加载安全帽信息(项目ID) {
+            $.ajax({
+                url: "http://172.168.201.146:8080/jeecg-boot/interface/api/getSafetyHelmentCensus",
+                async: true,
+                type: "post",
+                dataType: "json",
+                data: {
+                    id: 项目ID
+                },
+                success: function (record) {
+                    $('#在线总数').html(record.result.onlineCount);
+                    $('#佩戴率').html(record.result.onlineRate);
+                    $('#异常数').html(record.result.waringCount);
+                }, error: function () {
+                    $('#在线总数').html(0);
+                    $('#佩戴率').html(0);
+                    $('#异常数').html(0);
+                }
+            });
+        }
+
+        function 加载项目投资(项目ID, 年份) {
+            document.getElementById("xmtz").src = "charts1.html?id=" + 项目ID + "&year=" + 年份;
+        }
+
+        function 加载问题统计(项目ID) {
+            document.getElementById("wttj").src = "charts2.html?id=" + 项目ID;
+        }
+
+        function 加载项目里程碑(项目ID) {
+            $.ajax({
+                url: "http://172.168.201.146:8080/jeecg-boot/interface/api/getProjectMilestone",
+                async: true,
+                type: "post",
+                dataType: "json",
+                data: {
+                    id: 项目ID
+                },
+                success: function (record) {
+                    $('#项目里程碑').html('');
+                    var result = record.result;
+                    for (var i = 0; i < result.length; i++) {
+                        var date = result[i].date.split(" ")[0];
+                        var nodeName1 = result[i].nodeName.split("，");
+                        var nodeName2 = result[i].nodeName.split(",");
+                        var 圆形 = "";
+                        if (i == 0) {
+                            圆形 = "<div style='box-shadow: 0px 0px 10px rgba(0,255,255,0.7) inset;border-radius:50%;height:25px;width:25px;'></div>";
+                        } else {
+                            圆形 = "<div style='background:#2ad0ff;border-radius:50%;height:25px;width:25px;'></div>";
+                        }
+
+                        var 竖线 = "";
+                        if (i == result.length - 1) {
+                            竖线 = "";
+                        } else {
+                            竖线 = "<div style='width:1px;background: #123c8f;height:75px;margin-left:12px;'></div>";
+                        }
+
+                        var 节点内容 = "";
+                        if (nodeName1.length == 1 && nodeName2.length == 1) {
+                            节点内容 = nodeName1;
+                        } else {
+                            if (nodeName1.length == 1) {
+                                for (var j = 0; j < nodeName2.length; j++) {
+                                    节点内容 += nodeName2[j] + ",<br/>";
+                                }
+                            } else {
+                                for (var j = 0; j < nodeName1.length; j++) {
+                                    节点内容 += nodeName1[j] + ",<br/>";
+                                }
+                            }
+                        }
+
+                        var tr = "<tr>" +
+                            "<td style='text-align: center; vertical-align: top;'>" +
+                            "<div style='color:#86d7e2;width:100%;text-align: center;'>" + date + "</div>" +
+                            "</td>" +
+                            "<td style='text-align: center; vertical-align: top;'>" +
+                            圆形 + 竖线 +
+                            "</td>" +
+                            "<td style='text-align: center; vertical-align: top;'>" +
+                            "<div style='color:#86d7e2'>" + 节点内容 + "</div>" +
+                            "</td>" +
+                            "</tr>";
+                        $('#项目里程碑').append(tr);
+                    }
+                }
+            });
+        }
+
+
+
+        var map, tb;
+
+        require([
+            "esri/map", "dojo/keys", "esri/sniff",
+            "esri/SnappingManager",
+            "esri/layers/ArcGISTiledMapServiceLayer", "esri/toolbars/draw",
+            "esri/symbols/SimpleMarkerSymbol", "esri/symbols/SimpleLineSymbol",
+            "esri/symbols/PictureFillSymbol", "esri/symbols/CartographicLineSymbol",
+            "esri/graphic", "esri/SpatialReference", "esri/geometry/Point",
+            "esri/Color", "dojo/dom", "dojo/on","esri/layers/FeatureLayer","esri/renderers/SimpleRenderer","esri/symbols/PictureMarkerSymbol","esri/renderers/ScaleDependentRenderer","esri/layers/GraphicsLayer", "dojo/domReady!"
+        ], function (
+            Map, keys, has, SnappingManager, ArcGISTiledMapServiceLayer, Draw,
+            SimpleMarkerSymbol, SimpleLineSymbol,
+            PictureFillSymbol, CartographicLineSymbol,
+            Graphic, SpatialReference, Point,
+            Color, dom, on,FeatureLayer,SimpleRenderer,PictureMarkerSymbol,ScaleDependentRenderer,GraphicsLayer
+        ) {
+            //定义地图容器
+            map = new Map("divmap", {
+                logo: false,
+                center: new Point(jd_now, wd_now, new SpatialReference({
+                    wkid: 4326
+                })),
+                maxZoom: 20,
+                minZoom: 13,
+                zoom: 16,
+                slider: false
+            });
+            //定义瓦片底图
+            var tiled = new ArcGISTiledMapServiceLayer("http://192.168.101.231:6080/arcgis/rest/services/wuxi/MapServer");
+            //添加底图层
+            map.addLayer(tiled);
+            
+            //居中图层
+			var graphicsLayer_center = new GraphicsLayer({
+				id : "graphicsLayer_center"
+			});
+			map.addLayer(graphicsLayer_center);
+            
+            locateplace = function(jd, wd) {
+				var centerpoint = new Point(jd, wd, new SpatialReference({
+					wkid : 4326
+				}));
+				map.centerAndZoom(centerpoint, 16);
+			};
+			
+			
+			//zgd20201202添加项目地址图层
+			createPj = function(){
+				Datalayer_PJ.setDefinitionExpression("shape is not null and ids = '" + id_now + "'");
+				Datalayer_video.setDefinitionExpression("shape is not null and BS_PRJ_ID = '" + id_now + "'");
+				Datalayer_helmet.setDefinitionExpression("shape is not null and (PRJ_ID = '" + id_now + "' OR PRJ_ID IS NULL)");
+			}
+			var Datalayer_PJ = new FeatureLayer("http://192.168.101.231:6080/arcgis/rest/services/view_bs_project/MapServer/0", {
+					id : "Datalayer_PJ",
+					mode : FeatureLayer.MODE_SNAPSHOT,
+					outFields : [ "*" ]
+				});
+				var Renderer_PJ = new SimpleRenderer(new PictureMarkerSymbol('images/RedPin1LargeB.png', 8, 8));
+				//Datalayer_PJ.setRenderer(Renderer_LG);
+				//设置图标在地图缩放时变化大小
+				var Renderer_PJ1 = new SimpleRenderer(new PictureMarkerSymbol('images/RedPin1LargeB.png', 15, 15));
+				var Renderer_PJ2 = new SimpleRenderer(new PictureMarkerSymbol('images/RedPin1LargeB.png', 25, 25));
+				var Renderer_PJ3 = new SimpleRenderer(new PictureMarkerSymbol('images/RedPin1LargeB.png', 50, 50));
+
+				var scaleDependentRenderer_LG = new ScaleDependentRenderer({
+					rendererInfos : [ {
+						renderer : Renderer_PJ1,
+						maxZoom : 13,
+						minZoom : 0
+					}, {
+						renderer : Renderer_PJ2,
+						maxZoom : 15,
+						minZoom : 13
+					}, {
+						renderer : Renderer_PJ3,
+						maxZoom : 19,
+						minZoom : 15
+					} ]
+				});
+				Datalayer_PJ.setRenderer(scaleDependentRenderer_LG);
+
+				//Datalayer_PJ.setDefinitionExpression("shape is not null and ids = '" + id_now + "'");
+				map.addLayer(Datalayer_PJ, 4);
+				changeCursor(Datalayer_PJ, "PRJ_NAME", "tabDiv_PJ");
+				
+				//自定义的窗体
+				customInfoWindow(Datalayer_PJ, "项目", {
+					"IDS":"IDS",
+					"PRJ_NAME":"PRJ_NAME",
+					"项目类别": "PRJ_TYPE",
+					"项目阶段" : "PRJ_STAGE",
+					"建设规模" : "PRJ_BUILDING_SIZE",
+					"负责人" : "CREATE_BY",
+					"决算投资" : "PRJ_FINAL_ESTIMATE",
+					"开工日期" : "CREATE_TIME"
+				});
+				
+				
+				
+				
+				var Datalayer_video = new FeatureLayer("http://192.168.101.231:6080/arcgis/rest/services/view_bs_video/MapServer/0", {
+					id : "Datalayer_video",
+					mode : FeatureLayer.MODE_SNAPSHOT,
+					outFields : [ "*" ]
+				});
+				var Renderer_video = new SimpleRenderer(new PictureMarkerSymbol('images/camera1.png', 5, 5));
+				//Datalayer_PJ.setRenderer(Renderer_LG);
+				//设置图标在地图缩放时变化大小
+				var Renderer_video1 = new SimpleRenderer(new PictureMarkerSymbol('images/camera1.png', 10, 10));
+				var Renderer_video2 = new SimpleRenderer(new PictureMarkerSymbol('images/camera1.png', 15, 15));
+				var Renderer_video3 = new SimpleRenderer(new PictureMarkerSymbol('images/camera1.png', 30, 30));
+
+				var scaleDependentRenderer_video = new ScaleDependentRenderer({
+					rendererInfos : [ {
+						renderer : Renderer_video1,
+						maxZoom : 13,
+						minZoom : 0
+					}, {
+						renderer : Renderer_video2,
+						maxZoom : 15,
+						minZoom : 13
+					}, {
+						renderer : Renderer_video3,
+						maxZoom : 19,
+						minZoom : 15
+					} ]
+				});
+				Datalayer_video.setRenderer(scaleDependentRenderer_video);
+
+				//Datalayer_PJ.setDefinitionExpression("shape is not null and ids = '" + id_now + "'");
+				map.addLayer(Datalayer_video, 4);
+				changeCursor(Datalayer_video, "BS_VIDEO_CHANNELNAME", "tabDiv_video");
+				
+				//自定义的窗体
+				customInfoWindow_video(Datalayer_video, video_type, {
+					"BS_VIDEO_CHANNELNAME": "BS_VIDEO_CHANNELNAME",
+					"BS_VIDEO_CHANNELID":"BS_VIDEO_CHANNELID"
+					
+				});
+				
+				var Datalayer_helmet = new FeatureLayer("http://192.168.101.231:6080/arcgis/rest/services/view_bs_helmet_info/MapServer/0", {
+					id : "Datalayer_helmet",
+					mode : FeatureLayer.MODE_SNAPSHOT,
+					outFields : [ "*" ]
+				});
+				var Renderer_helmet = new SimpleRenderer(new PictureMarkerSymbol('images/helmet.png', 5, 5));
+				//Datalayer_PJ.setRenderer(Renderer_LG);
+				//设置图标在地图缩放时变化大小
+				var Renderer_helmet1 = new SimpleRenderer(new PictureMarkerSymbol('images/helmet.png', 10, 10));
+				var Renderer_helmet2 = new SimpleRenderer(new PictureMarkerSymbol('images/helmet.png', 15, 15));
+				var Renderer_helmet3 = new SimpleRenderer(new PictureMarkerSymbol('images/helmet.png', 30, 30));
+
+				var scaleDependentRenderer_helmet = new ScaleDependentRenderer({
+					rendererInfos : [ {
+						renderer : Renderer_helmet1,
+						maxZoom : 13,
+						minZoom : 0
+					}, {
+						renderer : Renderer_helmet2,
+						maxZoom : 15,
+						minZoom : 13
+					}, {
+						renderer : Renderer_helmet3,
+						maxZoom : 19,
+						minZoom : 15
+					} ]
+				});
+				Datalayer_helmet.setRenderer(scaleDependentRenderer_helmet);
+
+				//Datalayer_PJ.setDefinitionExpression("shape is not null and ids = '" + id_now + "'");
+				map.addLayer(Datalayer_helmet, 4);
+				changeCursor(Datalayer_helmet, "REALNAME", "tabDiv_helmet");
+				
+				//自定义的窗体
+				customInfoWindow_helmet(Datalayer_helmet, "姓名", {
+					"姓名": "REALNAME",
+					"部门":"DEPT",
+					"电话":"PHONE",
+					"状态":"HELSTATUS",
+					"更新时间":"UPDTIME"
+				});
+				
+				var timeout_t;
+				//点击每一行的"定位"按钮
+				locateplace = function(jd, wd) {
+					clearTimeout(timeout_t);
+					graphicsLayer_center.clear();
+					var centerpoint = new Point(jd, wd, new SpatialReference({
+						wkid : 4326
+					}));
+					var centersymbol = new PictureMarkerSymbol('images/centerCircle.png', 50, 50);
+					var centergraphic = new Graphic(centerpoint, centersymbol);
+					map.centerAndZoom(centerpoint, 16);
+					graphicsLayer_center.add(centergraphic);
+					m1.hide();
+					timeout_t = setTimeout(function(){
+						graphicsLayer_center.clear();
+					},10000)
+				};
+				
+				
+				createPj();
+
+			//控制显示隐藏
+			showHide = function(type,status){
+				if (type == "video") {
+					if (status=="on") {
+						Datalayer_video.show();
+					} else {
+						Datalayer_video.hide();
+					}
+				}
+				if (type == "helmet") {
+					if (status=="on") {
+						Datalayer_helmet.show();
+					} else {
+						Datalayer_helmet.hide();
+					}
+				}
+			}
+
+        }); 
+        function maptrig(){
+        	document.getElementById("divmap").style.display = "none";
+        	document.getElementById("earthContainer").style.display = "block";
+        	
+        }
+        
+       $("#videoS").on('click', function() {
+       		if($("#videoS").is(":checked")){
+       			showHide("video","on");
+       		} else {
+       			showHide("video","off")
+       		}
+       		
+       });
+        
+        $("#helmetS").on('click', function() {
+       		if($("#helmetS").is(":checked")){
+       			showHide("helmet","on");
+       		} else {
+       			showHide("helmet","off")
+       		}
+       		
+       }); 
+       
+       function helmetDetail() {
+            $('#模态框标题区域').html("安全帽详细信息");
+           // $('#模态框正文区域').html(模态框正文);
+			
+			
+			$.ajax({
+                url: "http://172.168.201.146:8080/jeecg-boot/interface/api/getHelmetDetail",
+                async: true,
+                type: "post",
+                dataType: "json",
+                data: {
+                    prj_id: id_now
+                },
+                success: function (record) {
+                    var helmetList =record.result;
+					var tablestr = "<div style=\"width:950px;height:100%;margin-top:-20px;overflow:auto\"><table class=\"helmettable\"><thead><tr><td style=\"width:25%\"><b>姓名</b></td><td style=\"width:25%\"><b>部门</b></td><td style=\"width:25%\"><b>状态</b></td><td style=\"width:25%\"><b>操作</b></td></tr></thead><tbody>";
+					for(var i=0;i<helmetList.length;i++){
+						tablestr+="<tr><td>"+helmetList[i].NAME+"</td><td>"+helmetList[i].DEPT+"</td><td>"+helmetList[i].HELSTATUS+"</td><td><button onclick=\"locateplace('"+helmetList[i].LON+"','"+helmetList[i].LAT+"')\" class=\"button_s\">定位</button></td></tr>";
+					}
+					tablestr += "</tbody></table></div>";
+					$('#模态框正文区域').html(tablestr);
+			
+            		m1.show();
+                }, error: function () {
+                   
+                }
+            });
+			
+        }
+        
+        function videoDetail() {
+            $('#模态框标题区域').html("监控详细信息");
+           // $('#模态框正文区域').html(模态框正文);
+			
+			
+			$.ajax({
+                url: "http://172.168.201.146:8080/jeecg-boot/interface/api/getVideoDetail",
+                async: true,
+                type: "post",
+                dataType: "json",
+                data: {
+                    prj_id: id_now
+                },
+                success: function (record) {
+                    var vdometList =record.result;
+					var tablestr = "<div id=\"mttable\" style=\"width:950px;height:100%;margin-top:-20px;overflow:auto\"><table class=\"helmettable\"><thead><tr><td style=\"width:25%\"><b>名称</b></td><td style=\"width:25%\"><b>IP地址</b></td><td style=\"width:25%\"><b>状态</b></td><td style=\"width:25%\"><b>操作</b></td></tr></thead><tbody>";
+					for(var i=0;i<vdometList.length;i++){
+						tablestr+="<tr><td>"+vdometList[i].NAME+"</td><td>"+vdometList[i].IP+"</td><td>"+vdometList[i].STATUS+"</td><td><button onclick=\"locateplace('"+vdometList[i].LON+"','"+vdometList[i].LAT+"')\" class=\"button_s\">定位</button></td></tr>";
+					}
+					tablestr += "</tbody></table></div>";
+					$('#模态框正文区域').html(tablestr);
+            		m1.show();
+                }, error: function () {
+                   
+                }
+            });
+			
+        }
+        
+    </script>
+</body>
+
+</html>

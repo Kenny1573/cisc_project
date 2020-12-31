@@ -1,0 +1,6 @@
+详细业务场景见 http://open.dahuatech.com/ 接口文档中业务介绍--》车辆智能--》车辆布控中内容
+
+1，用户可以针对某辆车进行精确车牌布控。调用【新增布控接口】AddSurveillance，生成布控记录
+2，调用【审核布控接口】AuditSurveillance，对这个布控进行审核通过和审核不通过操作。调用【撤销布控接口】RevokeSurveillance来对布控中的布控进行撤销。
+3，调用【查询布控接口】QuerySurveillance，来查询处于各种状态的布控信息。
+4，也可以根据,3查询结果中的布控记录号调用【布控详情接口】SurveillanceDetail来查询某个具体的布控信息

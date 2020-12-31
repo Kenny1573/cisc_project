@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.api.mapper.ApiMapper">
+
+	
+	<!-- 查询项目总数和总投资 -->
+	<select id="selectProjectTotal" resultType="java.util.LinkedHashMap">
+			select count(*) as projectnum , sum(prj_rough_estimate) as estimatemoney  from pjplat.bs_project where del_flag='0'
+	</select>
+	
+	<!-- 查询在建设项目总数和投资 -->
+	<select id="selectProjectUnderConstructionTotal" resultType="java.util.LinkedHashMap">
+			select count(*) as projectnum,sum(prj_rough_estimate) as estimatemoney from pjplat.bs_project where del_flag='0' and prj_stage ='在建'
+	</select>
+	
+	
+	<!-- 查询在建设项目完成投资 -->
+	<select id="selectProjectUnderConstructionMoney" resultType="java.util.LinkedHashMap">
+		select sum(a.mr_finish_investment) as finishmoney  from pjplat.bs_month_report a,pjplat.bs_yearplan_detail b , pjplat.bs_year_plan c,pjplat.bs_project d where a.mr_ypd_id = b.id and b.ypd_yp_id = c.id and d.id = c.yp_prj_id and d.prj_stage='在建'
+	</select>
+	
+	<!-- 本月新立项 -->
+	<select id="selectNewCurrentMonthProjectCount" resultType="java.util.LinkedHashMap">
+			select count(*) as newproject from pjplat.bs_project where del_flag='0' and to_char(create_time,'yyyymm') = to_char(sysdate,'yyyymm')
+	</select>
+	
+	<!-- 项目类型分布 -->
+	<select id="selectProjectTypeSpread" resultType="java.util.LinkedHashMap">
+			select a.item_text as "type" , (case when b.typesum is not null then b.typesum else 0 end) as "value" from (select b.item_text,b.item_value from HTPLAT.SYS_DICT a , htplat.sys_dict_item  b where a.dict_name = '项目类型' and a.id = b.dict_id) a left join (select prj_type,count(prj_type) as typesum from pjplat.bs_project where del_flag='0' group by prj_type ) b on a.item_value = b.prj_type
+	</select>
+	
+	
+	<!-- 项目问题统计 -->
+	<select id="selectProjectProblemCensus" resultType="java.util.LinkedHashMap">
+			select c.prj_name ,b.name, a.typesum from (select ps_prj_id,substr(ps_type,0,6) as code ,count(1) as typesum from pjplat.BS_PROBLEM_SHEET group by substr(ps_type,0,6),ps_prj_id) a left join HTPLAT.SYS_CATEGORY b on a.code = b.code left join pjplat.bs_project c on a.ps_prj_id =c.id
+	</select>
+	
+	
+	
+	<!-- 项目简介 -->
+	<select id="selectProjectContent" resultType="java.util.LinkedHashMap">
+			select id , prj_name ,prj_building_content,PRJ_LONGITUDE,PRJ_LATITUDE from pjplat.bs_project
+			<where>
+				del_flag = '0'
+				<if test="id!=null and id!=''">
+					and	id = #{id}
+				</if>
+			</where>
+	</select>
+	
+	<!-- 里程碑节点按照计划开始时间正序 -->
+	<select id="selectProjectMilestoneForward" resultType="java.util.LinkedHashMap">
+			select * from pjplat.bs_schedule_plan 
+			<where>
+				<if test="projectID!=null and projectID!=''">
+					sp_prj_id  = #{projectID}
+				</if>
+			</where>
+			 order by sp_node_begin_time asc
+	</select>
+	
+	<!-- 里程碑节点按照计划截至时间倒序 -->
+	<select id="selectProjectMilestonebackward" resultType="java.util.LinkedHashMap">
+			select * from pjplat.bs_schedule_plan 
+			<where>
+				<if test="projectID!=null and projectID!=''">
+					sp_prj_id  = #{projectID}
+				</if>
+			</where> 
+			order by sp_node_end_time desc
+	</select>
+	
+	
+	
+	<!-- 可视化2项目统计问题发生部位 -->
+	<select id="selectProjectProblemCensusGroupByLocation" resultType="java.util.LinkedHashMap">
+			select a.ps_location from pjplat.bs_problem_sheet a , pjplat.bs_project b 
+			<where>
+				 a.ps_prj_id =b.id and b.del_flag='0'
+				<if test="projectID!=null and projectID!=''">
+					and a.ps_prj_id  = #{projectID}
+				</if>
+			</where> 
+			group by a.ps_location order by a.ps_location
+	</select>
+	
+	<!-- 可视化2项目根据不同类型问题统计 -->
+	<select id="selectProjectProblemCensusGroupByType" resultType="java.util.LinkedHashMap">
+			select b.name as "problemType", a.typesum as "value" from (select substr(a.ps_type,0,6) as code ,count(1) as typesum from pjplat.bs_problem_sheet a , pjplat.bs_project b
+			<where>
+				 a.ps_prj_id = b.id and b.del_flag='0'
+				<if test="projectID!=null and projectID!=''">
+					and a.ps_prj_id  = #{projectID}
+				</if>
+			</where> 
+			group by substr(a.ps_type,0,6)) a left join HTPLAT.SYS_CATEGORY b on a.code = b.code
+	</select>
+	<!-- 可视化2项目根据不同位置不同类型问题统计 -->
+	<select id="selectProjectProblemCensusGroupByTypeAndLocation" resultType="java.util.LinkedHashMap">
+			select a.ps_location ,b.name, a.typesum from (select a.ps_location,substr(a.ps_type,0,6) as code ,count(1) as typesum from pjplat.bs_problem_sheet a , pjplat.bs_project b
+			<where>
+				 a.ps_prj_id =b.id and b.del_flag='0'
+				<if test="projectID!=null and projectID!=''">
+				 and a.ps_prj_id  = #{projectID}
+				</if>
+			</where> 
+			group by substr(a.ps_type,0,6),a.ps_location) a left join HTPLAT.SYS_CATEGORY b on a.code = b.code order by ps_location
+	</select>
+	
+	
+	<!-- 可视化2项目里程碑节点 -->
+	<select id="selectProjectMilestoneByProject" resultType="java.util.LinkedHashMap">
+			select rownum as "sequence",sp_node_name as "nodeName",sp_node_begin_time as "date" from (select sp_node_name ,sp_node_begin_time from pjplat.bs_schedule_plan
+			<where>
+				sp_is_milestone = 'true'
+				<if test="projectID!=null and projectID!=''">
+					and	sp_prj_id = #{projectID}
+				</if>
+			</where>
+			order by sp_node_begin_time desc)
+	</select>
+	
+	
+	<!-- 可视化2项目投资-->
+	<select id="selectProjectInvestment" resultType="java.util.LinkedHashMap">
+			select a.ypd_month,a.ypd_investment,b.mr_finish_investment from pjplat.bs_yearplan_detail a 
+				left join pjplat.bs_month_report b on a.id=b.mr_ypd_id where ypd_yp_id in (select id from pjplat.BS_YEAR_PLAN a 
+			<where> and 1=1
+				<if test="projectID!=null and projectID!=''">
+					and yp_prj_id = #{projectID}
+				</if>
+				<if test="year!=null and year!=''">
+					and yp_year = #{year}
+				</if>
+			</where>
+			) order by ypd_month asc
+	</select> 
+	
+	<!-- 分项目统计项目进度 -->
+	<select id="selectProjectInvestmentWarningCensus" resultType="java.util.LinkedHashMap">
+		select a.tzs , b.prj_name,b.prj_rough_estimate from
+			(select sum(a.mr_finish_investment) as tzs,c.yp_prj_id from pjplat.bs_month_report a  left join pjplat.bs_yearplan_detail b on a.mr_ypd_id = b.id left join pjplat.bs_year_plan c on b.ypd_yp_id = c.id where c.yp_prj_id is not null group by c.yp_prj_id) a right join pjplat.bs_project b 
+			on a.yp_prj_id = b.id and b.del_flag='0'
+	</select>
+	
+	<!-- 根据事件类别和时间查询车辆事件 -->
+	<select id="getVehicleIncident" resultType="java.util.LinkedHashMap">
+		select a.*,b.item_text from v2x.jc_clsj a left join (select b.item_text,b.item_value from htplat.sys_dict a,htplat.sys_dict_item b  where dict_code='clsjlb' and a.id=b.dict_id) b on a.sjlb = b.item_value 
+		<where>
+			<if test="sjlb!=null and sjlb!=''">
+				a.sjlb = #{sjlb}
+			</if>
+			<if test="startTime!=null and startTime!=''">
+				AND sjsj &gt;= to_date(#{startTime},'yyyy-mm-dd hh24:mi:ss')
+			</if>
+			<if test="endTime!=null and endTime!=''">
+				AND sjsj &lt;= to_date(#{endTime},'yyyy-mm-dd hh24:mi:ss')
+			</if>
+		</where>
+		order by a.sjsj desc
+	</select>
+	
+	<!-- 安全帽详细 -->
+	<select id="selectHelmetViewInfo" resultType="java.util.LinkedHashMap">
+			select realname as name,dept,helstatus,lon,lat from pjplat.view_bs_helmet_info where 1=1 and lon is not null and lat is not null and (prj_id = '${prj_id}' or prj_id is null)
+	</select>
+	
+	<!-- 监控详细 -->
+	<select id="selectVideoViewInfo" resultType="java.util.LinkedHashMap">
+			select bs_video_channelname as name,bs_ip as ip,(case when bs_video_status ='1' then '在线'  when bs_video_status = '0' then '离线' else '未知' end) as status,bs_video_lon as lon,bs_video_lat as lat from pjplat.view_bs_video where 1=1 and bs_video_lon is not null and bs_video_lat is not null and bs_prj_id = '${prj_id}' 
+	</select>
+</mapper>

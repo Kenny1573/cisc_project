@@ -1,0 +1,107 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="video-js-cdn.css">
+<link rel="stylesheet" href="video.css">
+<style>
+p{
+	text-align: justify;
+	height: 20px;
+	overflow: hidden;
+}
+p:after{
+	display: inline-block;
+	content:'';
+	overflow: hidden;
+	width: 100%;
+	height: 0;
+}
+</style>
+</head>
+<body>
+<video id="myVideo" style="width:100%;height:95%" class="video-js vjs-default-skin" controls preload="auto" autoplay="true"></video>
+
+<script src="jquery-1.11.3.js"></script>
+<script src="flv.min.js"></script>
+<script src="hls.min.js"></script>
+<script>
+/*
+如何在浏览器观看视频
+> 首先确定要观看视频的通道号。常用方式有两种
+>
+> a) 如果能访问视频云的管理界面，在`设备`页面通过`导出`按钮，得到通道列表。
+>
+> b) 通过  **基础服务->设备管理->获取设备树**  接口获得通道列表。
+>
+> c) 通过  **视频服务->实时监视->获取实时监视URI** 接口获得实时监视地址，送浏览器播放。
+
+*/
+/* if ( !flvjs.isSupported() ) {alert("浏览器不支持 FLV, 请升级！");}
+if ( !Hls.isSupported() )   {alert("浏览器不支持 HLS, 请升级！");}
+ */
+function GetQueryString(name){
+    		var reg = new RegExp("(^|&)" + name +"=([^&]*)(&|$)");
+    		var r = window.location.search.substr(1).match(reg);
+    		if(r!=null){
+    		return unescape(r[2]);
+    		}else {
+    		return null}
+}
+    	
+ 
+function playVideo(){
+  var type = GetQueryString("type");
+  var channelid = GetQueryString("channelid");
+  if ('HLS' == type) {
+    playhls(channelid);
+  } else {
+    playflv(channelid);
+  }
+}
+
+function playhls(channelid) {
+	var video = document.getElementById("myVideo");
+	var myPlayer = new Hls();
+	
+	//ajax 获取视频地址
+	$.ajax({
+                url: "http://172.168.201.105:8080/jeecg-boot/interface/api/getVideoSource",
+                async: true,
+                type: "post",
+                dataType: "json",
+                data: {
+                    channelId: channelid
+                },
+                success: function (record) {
+                    var url_hls =record.result.hlsUrl;
+
+					myPlayer.loadSource( url_hls );
+					myPlayer.attachMedia(video);
+					myPlayer.on(Hls.Events.MANIFEST_PARSED, function() {
+						video.play(); }
+					);
+                }, error: function () {
+                   
+                }
+            });
+	
+}
+
+function playflv(channelid) {
+	var video = document.getElementById("myVideo");
+	
+	//ajax 获取视频地址
+	var url_flv ="";
+	
+	var myPlayer = flvjs.createPlayer({
+		type: 'flv',
+		url : url_flv
+	});
+	myPlayer.attachMediaElement(video);
+	myPlayer.load();
+	myPlayer.play();
+}
+ playVideo();
+</script>
+</body>
+</html>

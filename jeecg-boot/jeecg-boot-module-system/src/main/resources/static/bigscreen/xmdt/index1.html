@@ -1,0 +1,712 @@
+﻿<!DOCTYPE html>
+<html style="height: 100%;" lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>无锡市建管中心企业级平台</title>
+	<!--Arcgis所需要的css文件-->
+	<link rel="stylesheet" href="http://192.168.101.221/library/3.20/3.20/dijit/themes/claro/claro.css" />
+	<link rel="stylesheet" href="http://192.168.101.221/library/3.20/3.20/esri/css/esri.css">
+	<link rel="stylesheet" href="css/modal.min.css">
+	<link rel="stylesheet" href="css/initMap.css">
+
+	<style type="text/css">
+		html,
+		body {
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+			background: #031a4d center no-repeat;
+		}
+
+		.header {
+			margin-top: 5px;
+			width: 100%;
+			height: 70px;
+			padding: 0px;
+			background: url("images/frame/title.png") no-repeat center top;
+			background-size: 100% 100%;
+			text-align: center;
+		}
+
+		.header span {
+			font-size: 40px;
+			color: #1de0ff;
+			letter-spacing: 1px;
+			/* text-shadow: 0.2rem 0.2rem 0.8rem #00d8ff; */
+			line-height: 40px;
+			/* font-weight: 550; */
+		}
+
+		.left {
+			position: absolute;
+			bottom: 10px;
+			top: 70px;
+			width: 1344px;
+			height: 1000px;
+		}
+
+		.right {
+			position: absolute;
+			left: 1344px;
+			bottom: 10px;
+			top: 70px;
+			float: left;
+			width: 576px;
+			height: 1000px;
+		}
+
+		.left-top {
+			width: 100%;
+			height: 590px;
+			margin-bottom: 6px;
+			/* background: url("images/frame/lt1.png") no-repeat center top;
+			background-size: 100% 100%; */
+		}
+
+		.ltframe {
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			width: 1344px;
+			height: 590px;
+			background: url("images/frame/lt1.png") no-repeat center top;
+			background-size: 100% 100%;
+			z-index: 200;
+		}
+
+		.left-bottom {
+			float: left;
+			width: 100%;
+			height: 40%;
+		}
+
+		.left-bottom-left {
+			float: left;
+			width: 40%;
+			height: 405px;
+			background: url("images/frame/bt1.png") no-repeat center top;
+			background-size: 100% 100%;
+		}
+
+		.left-bottom-right {
+			float: left;
+			width: 60%;
+			height: 100%;
+			background: url("images/frame/bt2.png") no-repeat center top;
+			background-size: 100% 100%;
+		}
+
+		.right-top {
+			width: 100%;
+			height: 590px;
+			margin-bottom: 6px;
+			background: url("images/frame/rt1.png") no-repeat center top;
+			background-size: 100% 100%;
+		}
+
+		.right-bottom {
+			margin: 1px 0px 0px 12px;
+			width: 555px;
+			height: 40%;
+			background: url("images/frame/bt3.png") no-repeat center top;
+			background-size: 100% 100%;
+		}
+
+		.smallimg {
+			position: relative;
+			width: 20px;
+			height: 20px;
+		}
+
+		.smalltitle {
+			position: relative;
+			color: #1de0ff;
+			font-size: 18px;
+		}
+
+		.img1 {
+			top: 36px;
+			left: 60px;
+			z-index: 300;
+		}
+
+		.title1 {
+			top: 32px;
+			left: 63px;
+			z-index: 300;
+		}
+
+		.img2 {
+			top: 16px;
+			left: 40px;
+		}
+
+		.title2 {
+			top: 12px;
+			left: 40px;
+		}
+
+		.img3 {
+			top: 20px;
+			left: 42px;
+		}
+
+		.title3 {
+			top: 16px;
+			left: 44px;
+		}
+
+		.img4 {
+			top: 20px;
+			left: 36px;
+		}
+
+		.title4 {
+			top: 16px;
+			left: 38px;
+		}
+
+		.rtdiv {
+			width: 100%;
+			height: 25%;
+		}
+
+		.rtdivleft {
+			float: left;
+			width: 190px;
+			height: 85px;
+			background-color: #3758fa30;
+			margin: 25px 20px 0px 30px;
+			border-radius: 5px;
+		}
+
+		.rtdivright {
+			float: left;
+			width: 250px;
+			height: 85px;
+			background-color: #3758fa30;
+			margin: 25px 10px 0px 20px;
+			border-radius: 5px;
+		}
+
+		.rtimg {
+			float: left;
+			width: 80px;
+			height: 100%;
+		}
+
+		.rtimgdiv {
+			position: relative;
+			top: 13px;
+			left: 20px;
+			width: 60px;
+			height: 60px;
+			border-radius: 50%;
+		}
+
+		.rtimg .rticon {
+			position: relative;
+			top: 15px;
+			left: 15px;
+			width: 30px;
+			height: 30px;
+		}
+
+		.rtwords {
+			float: left;
+			height: 100%;
+			text-align: center;
+		}
+
+		.rtdivleft .rtwords {
+			width: 110px;
+		}
+
+		.rtdivright .rtwords {
+			width: 170px;
+		}
+
+		.rtcontent1 {
+			position: relative;
+			top: 15px;
+			color: #72d4e3;
+		}
+
+		.rtcontent2 {
+			position: relative;
+			top: 20px;
+			font-size: 25px;
+		}
+
+		.moreinfo {
+			display: none;
+			position: absolute;
+			top: 100px;
+			left: 535px;
+			width: 800px;
+			height: 500px;
+			background-color: #457ac9eb;
+			border-radius: 10px;
+			padding: 30px;
+			z-index: 900;
+			border: 2px solid #a6d1f6;
+		}
+
+		.moretable {
+			border: 2px solid #fcfeff;
+		}
+
+
+		/* 弹窗遮罩层 */
+		.btn {
+			display: inline-block;
+			margin-bottom: 0;
+			font-weight: normal;
+			text-align: center;
+			vertical-align: middle;
+			-ms-touch-action: manipulation;
+			touch-action: manipulation;
+			cursor: pointer;
+			background-image: none;
+			border: 1px solid transparent;
+			white-space: nowrap;
+			padding: 6px 12px;
+			font-size: 14px;
+			line-height: 1.42857143;
+			border-radius: 4px;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+		}
+
+		.btn:focus,
+		.btn:active:focus,
+		.btn.active:focus,
+		.btn.focus,
+		.btn:active.focus,
+		.btn.active.focus {
+			outline: 5px auto -webkit-focus-ring-color;
+			outline-offset: -2px;
+		}
+
+		.btn:hover,
+		.btn:focus,
+		.btn.focus {
+			color: #333333;
+			text-decoration: none;
+		}
+
+		.btn:active,
+		.btn.active {
+			outline: 0;
+			background-image: none;
+			-webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+			box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+		}
+	</style>
+
+</head>
+
+<body>
+	<!--头部-->
+	<div class="header">
+		<span>无锡市建管中心企业级平台</span>
+	</div>
+
+	<div class="left">
+
+		<div class="left-top">
+			<img class="smallimg img1" src="images/smallicons/img1.png">
+			<span class="smalltitle title1">项目地图分布</span>
+			<div id="map" style="position: absolute;top: 0px;left: 0px;width:1344px; height:590px;"></div>
+			<div class="ltframe" style="pointer-events: none;"></div>
+		</div>
+
+		<div class="left-bottom">
+
+			<div class="left-bottom-left">
+				<img class="smallimg img2" src="images/smallicons/img2.png">
+				<span class="smalltitle title2">项目类型分布</span>
+				<div id="echarts1" style="width:95%; height:330px; margin:20px 0px 0px 20px;"></div>
+			</div>
+
+			<div class="left-bottom-right">
+				<img class="smallimg img3" src="images/smallicons/img3.png">
+				<span class="smalltitle title3">项目投资进度预警</span>
+				<span class="more" id="more1" onclick="javascript:checkmore1();"
+					style="position: relative;top: 26px;left: 530px;color: #1de0ff;font-size: 14px;cursor: pointer;">查看更多</span>
+				<div id="echarts2" style="width:95%; height:330px; margin:30px 0px 0px 20px;"></div>
+			</div>
+
+		</div>
+
+	</div>
+
+	<div class="right">
+
+		<div class="right-top">
+			<div class="rtdivmain" style="height: 92%; width: 93%; padding: 25px 0px 0px 20px;">
+				<div class="rtdiv">
+					<div class="rtdivleft">
+						<div class="rtimg">
+							<div class="rtimgdiv" style="background-color: #19ffea;">
+								<img class="rticon" src="images/rticons/1.png">
+							</div>
+						</div>
+						<div class="rtwords">
+							<span class="rtcontent1">项目总数</span></br>
+							<span class="rtcontent2" id="projectSum" style="color: #19ffea;">27</span>
+						</div>
+					</div>
+					<div class="rtdivright">
+						<div class="rtimg">
+							<div class="rtimgdiv" style="background-color: #ffd819;">
+								<img class="rticon" src="images/rticons/2.png">
+							</div>
+						</div>
+						<div class="rtwords">
+							<span class="rtcontent1">项目总投资</span></br>
+							<span class="rtcontent2" id="ProjectInvestment" style="color: #ffd819;">14.68亿</span>
+						</div>
+					</div>
+				</div>
+				<div class="rtdiv">
+					<div class="rtdivleft">
+						<div class="rtimg">
+							<div class="rtimgdiv" style="background-color: #dd0d0d;">
+								<img class="rticon" src="images/rticons/3.png"></div>
+						</div>
+						<div class="rtwords">
+							<span class="rtcontent1">在建项目</span></br>
+							<span class="rtcontent2" id="currentProject" style="color: #dd0d0d;">13</span>
+						</div>
+					</div>
+					<div class="rtdivright">
+						<div class="rtimg">
+							<div class="rtimgdiv" style="background-color: #b678dd;">
+								<img class="rticon" src="images/rticons/4.png"></div>
+						</div>
+						<div class="rtwords">
+							<span class="rtcontent1">在建项目总投资</span></br>
+							<span class="rtcontent2" id="currentProjectInvestment" style="color: #b678dd;">4.2亿</span>
+						</div>
+					</div>
+				</div>
+				<div class="rtdiv">
+					<div class="rtdivleft">
+						<div class="rtimg">
+							<div class="rtimgdiv" style="background-color: #e3ad5c;">
+								<img class="rticon" src="images/rticons/5.png"></div>
+						</div>
+						<div class="rtwords">
+							<span class="rtcontent1">在建项目产值</span></br>
+							<span class="rtcontent2" id="currentProjectOutputValue" style="color: #e3ad5c;">2.1亿</span>
+						</div>
+					</div>
+					<div class="rtdivright">
+						<div class="rtimg">
+							<div class="rtimgdiv" style="background-color: #8bdf4b;">
+								<img class="rticon" src="images/rticons/6.png"></div>
+						</div>
+						<div class="rtwords">
+							<span class="rtcontent1">在建项目投资完成比</span></br>
+							<span class="rtcontent2" id="currentProjectInvestmentCompletionRatio"
+								style="color: #8bdf4b;">50.00%</span>
+						</div>
+					</div>
+				</div>
+				<div class="rtdiv">
+					<div class="rtdivleft">
+						<div class="rtimg">
+							<div class="rtimgdiv" style="background-color: #52a7f0;">
+								<img class="rticon" src="images/rticons/7.png"></div>
+						</div>
+						<div class="rtwords">
+							<span class="rtcontent1">本月新立项</span></br>
+							<span class="rtcontent2" id="currentMonthNewProject" style="color: #52a7f0;">1</span>
+						</div>
+					</div>
+					<div class="rtdivright">
+						<div class="rtimg">
+							<div class="rtimgdiv" style="background-color: #e54c12;">
+								<img class="rticon" src="images/rticons/8.png"></div>
+						</div>
+						<div class="rtwords">
+							<span class="rtcontent1">预警提醒</span></br>
+							<span class="rtcontent2" id="warning" style="color: #e54c12;">6</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="right-bottom">
+			<img class="smallimg img4" src="images/smallicons/img4.png">
+			<span class="smalltitle title4">项目问题统计</span>
+			<span class="more" id="more2" onclick="javascript:checkmore2();"
+				style="position: relative;top: 26px;left: 330px;color: #1de0ff;font-size: 14px;cursor: pointer;">查看更多</span>
+			<div id="echarts3" style="width:95%; height:330px; margin:30px 0px 0px 20px;">
+			</div>
+		</div>
+
+	</div>
+
+	<!-- 	
+	<div id="moreinfoID" class="moreinfo">
+		<table class="moretable">
+			<tr>
+				<td>1</td>
+				<td>2</td>
+				<td>3</td>
+			</tr>
+			<tr>
+				<td>4</td>
+				<td>5</td>
+				<td>6</td>
+			</tr>
+			<tr>
+				<td>7</td>
+				<td>8</td>
+				<td>9</td>
+			</tr>
+		</table>
+	</div> -->
+
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+							aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">更多信息</h4>
+				</div>
+				<div class="modal-body">
+					更多信息更多信息更多信息更多信息更多信息
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn" data-dismiss="modal">关闭</button>
+					<!-- <button type="button" class="btn">Save changes</button> -->
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+	<script src="js/echarts/echarts.min.js"></script>
+	<script src="js/echartjs.js"></script>
+	<script src="js/modal.min.js"></script>
+	
+	<script type="text/javascript" charset="UTF-8">
+		document.write("<script type='text/javascript' src='js/mapfunc.js?random=" + Math.random() + "'></s"+"cript>");
+	</script>
+
+	<!--Arcgis所需要的js文件-->
+	<script type="text/javascript" src="http://192.168.101.221/library/3.20/3.20/init.js"></script>
+
+	<script type="text/javascript">
+
+		var map, tb;
+
+		require([
+			"esri/map", "dojo/keys", "esri/sniff",
+			"esri/SnappingManager",
+			"esri/layers/ArcGISTiledMapServiceLayer", "esri/toolbars/draw",
+			"esri/symbols/SimpleMarkerSymbol", "esri/symbols/SimpleLineSymbol",
+			"esri/symbols/PictureFillSymbol", "esri/symbols/CartographicLineSymbol",
+			"esri/graphic", "esri/SpatialReference", "esri/geometry/Point",
+			"esri/Color", "dojo/dom", "dojo/on" ,"esri/layers/FeatureLayer","esri/renderers/SimpleRenderer","esri/symbols/PictureMarkerSymbol","esri/renderers/ScaleDependentRenderer","dojo/domReady!"
+		], function (
+			Map, keys, has, SnappingManager, ArcGISTiledMapServiceLayer, Draw,
+			SimpleMarkerSymbol, SimpleLineSymbol,
+			PictureFillSymbol, CartographicLineSymbol,
+			Graphic, SpatialReference, Point,
+			Color, dom, on,FeatureLayer,SimpleRenderer,PictureMarkerSymbol,ScaleDependentRenderer
+		) {
+			//定义地图容器
+			map = new Map("map", {
+				logo: false,
+				center: new Point(120.353483, 31.590084, new SpatialReference({
+					wkid: 4326
+				})),
+				maxZoom: 17,
+				minZoom: 11,
+				zoom: 15,
+				slider: false
+			});
+			//定义瓦片底图
+			var tiled = new ArcGISTiledMapServiceLayer("http://192.168.101.231:6080/arcgis/rest/services/wuxi/MapServer");
+			//添加底图层
+			map.addLayer(tiled);
+			
+			
+			//zgd20201202添加项目地址图层
+			var Datalayer_PJ = new FeatureLayer("http://192.168.101.231:6080/arcgis/rest/services/view_bs_project/MapServer/0", {
+					id : "Datalayer_PJ",
+					mode : FeatureLayer.MODE_SNAPSHOT,
+					outFields : [ "*" ]
+				});
+				var Renderer_PJ = new SimpleRenderer(new PictureMarkerSymbol('images/RedPin1LargeB.png', 16, 16));
+				//Datalayer_PJ.setRenderer(Renderer_LG);
+				//设置图标在地图缩放时变化大小
+				var Renderer_PJ1 = new SimpleRenderer(new PictureMarkerSymbol('images/RedPin1LargeB.png', 30, 30));
+				var Renderer_PJ2 = new SimpleRenderer(new PictureMarkerSymbol('images/RedPin1LargeB.png', 50, 50));
+				var Renderer_PJ3 = new SimpleRenderer(new PictureMarkerSymbol('images/RedPin1LargeB.png', 100, 100));
+
+				var scaleDependentRenderer_LG = new ScaleDependentRenderer({
+					rendererInfos : [ {
+						renderer : Renderer_PJ1,
+						maxZoom : 13,
+						minZoom : 0
+					}, {
+						renderer : Renderer_PJ2,
+						maxZoom : 15,
+						minZoom : 13
+					}, {
+						renderer : Renderer_PJ3,
+						maxZoom : 19,
+						minZoom : 15
+					} ]
+				});
+				Datalayer_PJ.setRenderer(scaleDependentRenderer_LG);
+
+				map.addLayer(Datalayer_PJ, 4);
+				changeCursor(Datalayer_PJ, "PRJ_NAME", "tabDiv_PJ");
+				
+				//自定义的窗体
+				customInfoWindow(Datalayer_PJ, "项目", {
+					"IDS":"IDS",
+					"PRJ_NAME":"PRJ_NAME",
+					"项目类别": "PRJ_TYPE",
+					"项目阶段" : "PRJ_STAGE",
+					"建设规模" : "PRJ_BUILDING_SIZE",
+					"负责人" : "CREATE_BY",
+					"决算投资" : "PRJ_FINAL_ESTIMATE",
+					"开工日期" : "CREATE_TIME"
+				});
+
+		});
+
+
+
+		// function checkmore1() {
+		// 	$("#moreinfoID").toggle();
+		// }
+
+		// function checkmore2() {
+		// 	$("#moreinfoID").toggle();
+		// }
+
+		$("#more1").click(function () {
+			$("#myModal").modal('show');
+		})
+		$("#more2").click(function () {
+			$("#myModal").modal('show');
+		})
+
+
+		interface1();
+		interface2();
+		interface3();
+		interface4();
+
+		function interface1() {
+			$.ajax({
+
+				url: "http://172.168.201.146:8080/jeecg-boot/interface/api/getProjectCensus",
+
+				// async: true,
+				type: "post",
+				dataType: "json",
+				success: function (record) {
+					$('#projectSum').html(record.result.projectSum);
+					$('#ProjectInvestment').html(record.result.ProjectInvestment);
+					$('#currentProject').html(record.result.currentProject);
+					$('#currentProjectInvestment').html(record.result.currentProjectInvestment);
+					$('#currentProjectOutputValue').html(record.result.currentProjectOutputValue);
+					$('#currentProjectInvestmentCompletionRatio').html(record.result.currentProjectInvestmentCompletionRatio);
+					$('#currentMonthNewProject').html(record.result.currentMonthNewProject);
+					$('#warning').html(record.result.warning);
+				}
+			});
+		}
+
+		function interface2() {
+			$.ajax({
+
+				url: "http://172.168.201.146:8080/jeecg-boot/interface/api/getProjectTypeCensus",
+
+				// async: true,
+				type: "post",
+				dataType: "json",
+				success: function (record) {
+					var data = record.result;
+					var data1 = [];
+					for (var i = 0; i < data.length; i++) {
+						data1.push({
+							value: data[i].value,
+							name: data[i].type,
+						});
+					}
+					init_myChart1(data1);
+				}
+			});
+		}
+
+		function interface3() {
+			$.ajax({
+
+				url: "http://172.168.201.146:8080/jeecg-boot/interface/api/getProjectInvestmentWarningCensus",
+
+				// async: true,
+				type: "post",
+				dataType: "json",
+				success: function (record) {
+					var data = record.result;
+					var yvalue = [];
+					var data1 = [];
+					for (var i = 0; i < data.length; i++) {
+						yvalue[i] = data[i].projectName;
+						data1[i] = data[i].value;
+						// data1.push(
+						// 	data[i].value
+						// );
+					}
+					init_myChart2(yvalue, data1);
+				}
+			});
+		}
+
+		function interface4() {
+			$.ajax({
+				url: "http://172.168.201.146:8080/jeecg-boot/interface/api/getProjectProblemCensus",
+
+				// async: true,
+				type: "post",
+				dataType: "json",
+				success: function (record) {
+					var data1 = record.result;
+					var xname = [];
+					var pvalue = [];
+					var plist = data1.problemList;
+					xname = data1.projectList;
+					console.log(xname);
+					for (var i = 0; i < data1.problemList.length; i++) {
+						pvalue.push({
+							name: data1.problemList[i].problemType,
+							data: data1.problemList[i].array,
+						});
+					}
+					console.log(pvalue);
+					init_myChart3(xname, pvalue);
+				}
+			});
+		}
+
+	</script>
+
+</body>
+
+</html>

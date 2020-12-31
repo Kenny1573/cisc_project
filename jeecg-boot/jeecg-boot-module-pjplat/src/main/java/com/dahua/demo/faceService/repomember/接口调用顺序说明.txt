@@ -1,0 +1,6 @@
+详细业务场景见 http://open.dahuatech.com/ 接口文档中业务介绍--》人像智能--》库成员管理中内容
+
+1，调用【库成员新增】AddMember，向指定人像库中新增一个库成员，返回成员唯一ID。
+2，调用【库成员修改】ModifyMember或【库成员删除】DeleteMember对新增的库成员进行修改、删除操作。
+3，调用【人像库查询和检索】QueryRepo，根据证件号码、姓名、人像库ID查询库成员列表，condition表示条件查询。
+4，执行3获取库成员列表数据后，可以根据其中一条记录的memberId调用【库成员详情】MemberDetail，查询库成员的详细信息。

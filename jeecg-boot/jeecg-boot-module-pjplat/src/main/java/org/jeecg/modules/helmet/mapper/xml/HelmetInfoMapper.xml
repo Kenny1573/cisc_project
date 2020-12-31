@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.helmet.mapper.HelmetInfoMapper">
+
+
+    <update id="updateCapability" >
+        update pjplat.bs_helmet_info
+        set
+        <trim suffixOverrides=",">
+        <if test="el!=null">
+            ELIMINATING_JITTER_TIME=#{el},
+        </if>
+        <if test="hit!=null">
+            HIT_SENSITIVITY=#{hit},
+        </if>
+        <if test="take!=null">
+            TAKEOFF_REPORT_INTERVAL=#{take},
+        </if>
+        <if test="GPS!=null">
+            GPS_REPORT_INTERVAL=#{GPS},
+        </if>
+        <if test="wear!=null">
+            WEAR_REPORT_INTERVAL_MAX=#{wear},
+        </if>
+        <if test="abnormal!=null">
+            ELIMINATING_JITTER_TIME_MAX=#{abnormal},
+        </if>
+        </trim>
+        where DEVICE_SERIAL=#{deviceSerial}
+    </update>
+
+</mapper>
